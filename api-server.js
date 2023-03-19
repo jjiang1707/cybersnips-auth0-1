@@ -46,21 +46,12 @@ const checkJwt = jwt({
 
 
 const checkRole = (role) => (req, res, next) => {
-  console.log('Checking role:', role);
   const authHeader = req.headers.authorization;
-  console.log('authHeader:', authHeader)
   const token = authHeader.split(' ')[1];
-  console.log('token:', token)
-
   const decodedToken = jsonwebtoken.decode(token);
-  console.log('decodedToken:', decodedToken);
-
   const customClaims = decodedToken['http://localhost:3000/claims'];
-  console.log(customClaims)
   const roles = customClaims['http://localhost:3000/roles'];
-  console.log(roles)
-
-  console.log('Roles:', roles); // Log the roles
+  console.log('Roles:', roles); 
 
   if (Array.isArray(roles) && roles.includes(role)) {
     next();
