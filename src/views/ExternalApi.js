@@ -5,6 +5,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { getConfig } from "../config";
 import Loading from "../components/Loading";
 import monkey2 from "../assets/monkey2.png";
+import monkey3 from "../assets/monkey3.png";
 
 
 export const ExternalApiComponent = () => {
@@ -136,7 +137,14 @@ export const ExternalApiComponent = () => {
             </div>
           </div>
         ) : (
-          <div>Nice Try - insufficient privileges.</div>
+          <div>
+            
+            <p>Nice Try - insufficient privileges.</p>
+            <br></br>
+            <img className="top-secret" src={monkey3}/>
+
+
+          </div>
         )}
                 
       </div>
