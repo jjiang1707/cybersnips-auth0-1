@@ -3,6 +3,7 @@ import { Alert } from "reactstrap";
 import Highlight from "../components/Highlight";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { getConfig } from "../config";
+import cookies from "js-cookie";
 import Loading from "../components/Loading";
 import monkey2 from "../assets/monkey2.png";
 import monkey3 from "../assets/monkey3.png";
@@ -61,6 +62,7 @@ export const ExternalApiComponent = () => {
     try {
       const token = await getAccessTokenSilently();
       console.log(token)
+      cookies.set("access_token", token, { httpOnly: true });// persist the access token
 
       const response = await fetch(`${apiOrigin}/api/external`, {
         headers: {
