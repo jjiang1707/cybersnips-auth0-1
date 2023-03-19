@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Alert } from "reactstrap";
+import { Alert } from "reactstrap";
 import Highlight from "../components/Highlight";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { getConfig } from "../config";
@@ -9,7 +9,7 @@ import monkey3 from "../assets/monkey3.png";
 
 
 export const ExternalApiComponent = () => {
-  const { apiOrigin = "http://localhost:3001", audience } = getConfig();
+  const { apiOrigin = "http://localhost:3001" } = getConfig();
 
   const [state, setState] = useState({
     showResult: false,
@@ -141,7 +141,7 @@ export const ExternalApiComponent = () => {
             
             <p>Nice Try - insufficient privileges.</p>
             <br></br>
-            <img className="top-secret" src={monkey3}/>
+            <img className="top-secret" src={monkey3} alt="m3"/>
 
 
           </div>
@@ -157,7 +157,7 @@ export const ExternalApiComponent = () => {
               <span>{JSON.stringify(state.apiMessage, null, 2)}</span>
             </Highlight>
             <br></br>
-            <img className="top-secret" src={monkey2}/>
+            <img className="top-secret" src={monkey2} alt="m4"/>
           </div>
         )}
       </div>
