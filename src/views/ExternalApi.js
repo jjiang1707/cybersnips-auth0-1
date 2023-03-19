@@ -122,7 +122,7 @@ export const ExternalApiComponent = () => {
           </Alert>
         )}
 
-        {state.showResult && (
+        {state.showResult ? (
           <div className="result-block" data-testid="api-result">
             <h6 className="muted">Result</h6>
             <div>
@@ -135,6 +135,8 @@ export const ExternalApiComponent = () => {
               />
             </div>
           </div>
+        ) : (
+          <div>Nice Try - insufficient privileges.</div>
         )}
                 
       </div>
