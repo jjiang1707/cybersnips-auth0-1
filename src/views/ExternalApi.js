@@ -65,7 +65,7 @@ export const ExternalApiComponent = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
+      }); 
 
       const responseData = await response.json();
       console.log(responseData)
@@ -123,42 +123,23 @@ export const ExternalApiComponent = () => {
         )}
 
         {state.showResult ? (
-          <div className="result-block" data-testid="api-result">
-            <h6 className="muted">Result</h6>
-            <div>
-              <h1>{state.apiMessage.h1}</h1>
-              <p>{state.apiMessage.p}</p>
-              <img
-                className="top-secret"
-                src={state.apiMessage.img}
-                alt="Top Secret"
-              />
+          <div className="result-block-container" data-testid="api-result">
+            <div className="result-block" data-testid="api-result">
+              <h6 className="muted">Result</h6>
+              <Highlight>
+                <span>{JSON.stringify(state.apiMessage, null, 2)}</span>
+              </Highlight>
+              <br></br>
+              <img className="top-secret" src={monkey2} alt="m4"/>
             </div>
           </div>
         ) : (
           <div>
-            
             <p>Nice Try - insufficient privileges.</p>
             <br></br>
             <img className="top-secret" src={monkey3} alt="m3"/>
-
-
           </div>
-        )}
-                
-      </div>
-
-      <div className="result-block-container">
-        {state.showResult && (
-          <div className="result-block" data-testid="api-result">
-            <h6 className="muted">Result</h6>
-            <Highlight>
-              <span>{JSON.stringify(state.apiMessage, null, 2)}</span>
-            </Highlight>
-            <br></br>
-            <img className="top-secret" src={monkey2} alt="m4"/>
-          </div>
-        )}
+        )}      
       </div>
     </>
   );

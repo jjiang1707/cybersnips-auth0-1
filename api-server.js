@@ -100,6 +100,7 @@ const checkRole = (role) => (req, res, next) => {
 // Get /api/external endpoint which is only permitted for users with admin role
 
 app.get("/api/external", checkJwt, checkRole('admin'), (req, res) => {
+  res.set('Access-Control-Max-Age', '86400');
   res.send({
     name: "Top Secret",
     description: "Cybersnips is a youtube channel",
