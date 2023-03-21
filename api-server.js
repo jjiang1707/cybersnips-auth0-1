@@ -63,13 +63,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Set cache control headers to disable caching
-
-app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-  next();
-});
-
 
 // Validate the JWT and signature against public key on jwskUri
 
@@ -107,7 +100,6 @@ const checkRole = (role) => (req, res, next) => {
 // Get /api/external endpoint which is only permitted for users with admin role
 
 app.get("/api/external", checkJwt, checkRole('admin'), (req, res) => {
-  console.log(res.getHeaders());
   res.send({
     name: "Top Secret",
     description: "Cybersnips is a youtube channel",
