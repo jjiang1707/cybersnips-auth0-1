@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const morgan = require("morgan");
 const helmet = require("helmet");
 const { expressjwt: jwt } = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
@@ -38,15 +37,20 @@ app.use(helmet());
 
 app.use(cors({ origin: appOrigin }));
 
-//Global CSP directives"
+//Global CSP directives
 
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ["'self'"],
+    defaultSrc: ["'none'"],
     scriptSrc: ["'self'"],
     styleSrc: ["'self'"],
     connectSrc: ["'self'"],
-    imgSrc: ["'self'"]
+    imgSrc: ["'self'"],
+    fontSrc: ["'self'"],
+    frameSrc: ["'self'"],
+    objectSrc: ["'self'"],
+    mediaSrc: ["'self'"]
+    
   }
 }));
 
@@ -58,6 +62,14 @@ app.use((req, res, next) => {
   res.set('X-XSS-Protection', '1; mode=block');
   next();
 });
+
+// Set cache control headers to disable caching
+
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  next();
+});
+
 
 // Validate the JWT and signature against public key on jwskUri
 
