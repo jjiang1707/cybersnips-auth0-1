@@ -8,12 +8,15 @@ const authConfig = require("./src/auth_config.json");
 const jsonwebtoken = require("jsonwebtoken");
 
 
+// Initialise express server
 
 const app = express();
 
 const port = process.env.API_PORT || 3001;
 const appPort = process.env.SERVER_PORT || 3000;
 const appOrigin = authConfig.appOrigin || `http://localhost:${appPort}`;
+
+// Ensure that auth0 configuration is present
 
 if (
   !authConfig.domain ||
@@ -27,9 +30,36 @@ if (
   process.exit();
 }
 
-app.use(morgan("dev"));
+// Use helmet for setting CSP headers
+
 app.use(helmet());
+
+// Set CORS to only allows access to APIs from same origin
+
 app.use(cors({ origin: appOrigin }));
+
+//Global CSP directives"
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'"],
+    styleSrc: ["'self'"],
+    connectSrc: ["'self'"],
+    imgSrc: ["'self'"]
+  }
+}));
+
+// Global X-XXS Protection Header 
+
+app.use(helmet.xssFilter());
+
+app.use((req, res, next) => {
+  res.set('X-XSS-Protection', '1; mode=block');
+  next();
+});
+
+// Validate the JWT and signature against public key on jwskUri
 
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
@@ -44,6 +74,7 @@ const checkJwt = jwt({
   algorithms: ["RS256"],
 });
 
+// Check role of user matches the required role for accessin the api
 
 const checkRole = (role) => (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -61,8 +92,10 @@ const checkRole = (role) => (req, res, next) => {
 };
 
 
+// Get /api/external endpoint which is only permitted for users with admin role
 
 app.get("/api/external", checkJwt, checkRole('admin'), (req, res) => {
+  console.log(res.getHeaders());
   res.send({
     name: "Top Secret",
     description: "Cybersnips is a youtube channel",

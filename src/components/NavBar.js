@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState  } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../assets/cybersnips.jpg";
@@ -36,7 +36,9 @@ const NavBar = () => {
         logoutParams: {
           returnTo: window.location.origin,
         }
+        
     });
+
 
   return (
     <div className="nav-container">
