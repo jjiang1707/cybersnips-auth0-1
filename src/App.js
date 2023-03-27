@@ -38,6 +38,12 @@ const App = () => {
     }
   }, [isAuthenticated, getAccessTokenSilently]);
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; Secure";
+    }
+  }, [isAuthenticated]);
+
 
   if (error) {
     return <div>Oops... {error.message}</div>;
